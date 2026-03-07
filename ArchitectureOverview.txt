@@ -1,0 +1,23 @@
+com.facepoint/
+├── config/
+│   ├── CompreFaceProperties   ← Typed @ConfigurationProperties binding
+│   ├── HttpClientConfig       ← RestTemplate bean with tight timeouts
+│   └── CustomMemoryConfig     ← JVM diagnostics + Serial GC verification
+├── controller/
+│   └── CheckInController      ← POST /api/v1/check-in  |  GET /{userId}
+├── dto/
+│   ├── CheckInRequest / Response
+│   └── CompreFaceRecognitionResponse  ← Maps CompreFace JSON payload
+├── entity/
+│   ├── User                   ← faceId = CompreFace subject identifier
+│   └── CheckIn                ← immutable audit record linked to User
+├── exception/
+│   ├── FaceNotDetectedException   (422)
+│   ├── FaceNotRecognizedException (401)
+│   └── GlobalExceptionHandler     ← Structured error bodies
+├── repository/
+│   ├── UserRepository             ← findByFaceId, findByEmail
+│   └── CheckInRepository          ← recent lookup for duplicate guard
+└── service/
+├── FaceService            ← Base64 → CompreFace → RecognitionResult
+└── CheckInService         ← Orchestrates recognition + persistence
